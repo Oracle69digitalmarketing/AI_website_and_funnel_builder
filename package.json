@@ -1,13 +1,14 @@
 {
-  "name": "ai-builder",
+  "name": "ai-website-builder",
   "version": "1.0.0",
-  "description": "AI-powered website builder",
+  "description": "AI-powered website and funnel builder",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "html-to-react": "^1.4.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
