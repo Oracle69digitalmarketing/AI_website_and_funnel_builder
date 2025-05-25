@@ -64,4 +64,17 @@ ReactDOM.createRoot(document.getElementById('root')).render( <React.StrictMode> 
 
 body { font-family: 'Inter', sans-serif; }
 
+import React from 'react'
+
+function App() {
+  return (
+    <div style={{ textAlign: 'center', padding: '2rem' }}>
+      <h1>Welcome to the AI Website Builder</h1>
+      <p>This is a starter template. Your AI-powered builder goes here.</p>
+    </div>
+  )
+}
+
+export default App
+
     
