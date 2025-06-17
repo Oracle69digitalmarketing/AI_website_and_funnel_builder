@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "AI Marketing Assistant",
+  "version": "1.0",
+  "description": "Generates websites and funnels for rural entrepreneurs using LLaMA AI.",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": [],
+  "icons": {
+    "48": "favicon.ico"
+  }
+}
