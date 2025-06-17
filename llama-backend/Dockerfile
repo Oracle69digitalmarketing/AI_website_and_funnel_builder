@@ -5,6 +5,12 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY app ./app
+COPY models ./models
+COPY llama.cpp ./llama.cpp
 
-CMD ["bash", "start.sh"]
+# Compile llama.cpp
+RUN cd llama.cpp && make
+
+EXPOSE 8000
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
