@@ -1,16 +1,23 @@
-FROM python:3.10-slim
+version: '3.8'
 
-WORKDIR /app
+services:
+  backend:
+    build: .
+    container_name: llama-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY app ./app
-COPY models ./models
-COPY llama.cpp ./llama.cpp
-
-# Compile llama.cpp
-RUN cd llama.cpp && make
-
-EXPOSE 8000
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+  nginx:
+    image: nginx:latest
+    container_name: llama-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/ssl:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+    depends_on:
+      - backend
