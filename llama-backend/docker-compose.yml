@@ -5,20 +5,35 @@ services:
     build: .
     container_name: llama-api
     restart: unless-stopped
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - ./models:/app/models
     command: bash start.sh
 
-  # Optional: NGINX reverse proxy (frontend access via port 80)
   nginx:
-    image: nginx:alpine
+    image: nginx:latest
     container_name: llama-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - llama-api
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./certbot/webroot:/var/www/certbot
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/webroot:/var/www/certbot
+      - /etc/letsencrypt:/etc/letsencrypt
+    entrypoint: ""
+    command: > 
+      sh -c "certbot certonly --webroot -w /var/www/certbot 
+      --email oracle69digital@gmail.com 
+      -d oracle69.com 
+      --agree-tos --non-interactive"
